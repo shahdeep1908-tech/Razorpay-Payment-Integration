@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>RazorPay GPay</title>
+    <style>
+
+        * {
+            box-sizing: border-box;
+            padding: 0px;
+            margin: 0px;
+            font-family: cursive;
+        }
+        html,
+        body {
+            height: 100%;
+        }
+        body {
+            background-color: #f1f5f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card {
+            background-color: white;
+            padding: 25px;
+            border: 1px solid #bbbbbb;
+            border-radius: 5px;
+            box-shadow: 1px 1px 10px 0px rgb(0 0 0 / 25%);
+        }
+        .title {
+            text-align: center;
+            letter-spacing: 1px;
+        }
+        .muted {
+            color: #8e7f7f;
+            display: block;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .btn_container {
+            padding: 20px;
+            text-align: center;
+        }
+        .btn {
+            border-radius: 4px;
+            cursor: pointer;
+            padding: 4px 8px;
+            background-color: #ffaaa7;
+            color: white;
+            font-size: 1.2em;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        input[type=number] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 3px solid #ccc;
+          - webkit-transition: 0.5s;
+            transition: 0.5s;
+            outline: none;
+        }
+        input[type=number]:focus {
+            border: 3px solid #555;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1 class="title">Pay using RazorPay</h1>
+    <br>
+    <form id="paymentForm">
+        {% csrf_token %}
+        <div class="amount-input">
+            <input type="number" id="donation-amount" placeholder="Enter Amount" required>
+        </div>
+        <div class="btn_container">
+            <button type="button" class="btn" id="pay-btn">Pay Now</button>
+        </div>
+    </form>
+</div>
+</body>
+<!-- Razorpay's Javascript code. -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    console.log("KEY :::", "{{ merchant_key }}");
+    document.getElementById("pay-btn").addEventListener("click", function () {
+        amount = document.getElementById("donation-amount").value;
+        fetch("/create-order", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ amount: amount }),
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("data ::: ", data)
+            const options = {
+                key: "{{ merchant_key }}",
+                amount: data.amount,
+                currency: "INR",
+                name: "Inexture Solutions",
+                description: "Google Pay Integration",
+                order_id: data.id,
+                handler: function (response) {
+                    console.log("response :::", response);
+                    if (response.razorpay_payment_id) {
+                        // Payment was successful, redirect to the success page
+                        window.location.href = "/success";
+                    } else {
+                        // Payment was canceled or failed, redirect to the cancel page
+                        window.location.href = "/cancel";
+                    }
+                },
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        })
+    });
+</script>
+</html>
