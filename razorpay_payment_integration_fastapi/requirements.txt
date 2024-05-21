@@ -1,0 +1,7 @@
+fastapi
+Jinja2
+pydantic
+python-dotenv
+razorpay
+requests
+uvicorn

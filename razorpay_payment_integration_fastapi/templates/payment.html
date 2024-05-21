@@ -1,10 +1,31 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Razorpay Payment</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Payment Page</h1>-->
+<!--<button id="paymentButton">Pay Now</button>-->
+
+<!--<script src="https://checkout.razorpay.com/v1/checkout.js"></script>-->
+<!--<script>-->
+<!--    document.getElementById("paymentButton").addEventListener("click", function () {-->
+<!--        console.log("Hi!");-->
+<!--        // JavaScript code to initiate the Razorpay payment, as shown in the previous response-->
+<!--    });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>RazorPay GPay</title>
+    <title>GFG</title>
     <style>
 
         * {
@@ -73,21 +94,18 @@
 <div class="card">
     <h1 class="title">Pay using RazorPay</h1>
     <br>
-    <form id="paymentForm">
-        {% csrf_token %}
-        <div class="amount-input">
-            <input type="number" id="donation-amount" placeholder="Enter Amount" required>
-        </div>
-        <div class="btn_container">
-            <button type="button" class="btn" id="pay-btn">Pay Now</button>
-        </div>
-    </form>
+    <div class="amount-input">
+        <input type="number" id="donation-amount" placeholder="Enter amount (in INR)">
+    </div>
+    <div class="btn_container">
+        <button class="btn" id="pay-btn">Pay</button>
+    </div>
 </div>
 </body>
+
 <!-- Razorpay's Javascript code. -->
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script>
-    console.log("KEY :::", "{{ merchant_key }}");
     document.getElementById("pay-btn").addEventListener("click", function () {
         amount = document.getElementById("donation-amount").value;
         fetch("/create-order", {
@@ -95,32 +113,31 @@
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ amount: amount }),
+            body: JSON.stringify({ amount: amount }), // Replace with the desired amount
         })
-        .then((response) => response.json())
-        .then((data) => {
-            console.log("data ::: ", data)
-            const options = {
-                key: "{{ merchant_key }}",
-                amount: data.amount,
-                currency: "INR",
-                name: "DEEP SHAH",
-                description: "Google Pay Integration",
-                order_id: data.id,
-                handler: function (response) {
-                    console.log("response :::", response);
-                    if (response.razorpay_payment_id) {
-                        // Payment was successful, redirect to the success page
-                        window.location.href = "/success";
-                    } else {
-                        // Payment was canceled or failed, redirect to the cancel page
-                        window.location.href = "/cancel";
-                    }
-                },
-            };
-            var rzp1 = new Razorpay(options);
-            rzp1.open();
-        })
+            .then((response) => response.json())
+            .then((data) => {
+                const options = {
+                    key: "{{ merchant_key }}",
+                    amount: data.amount,
+                    currency: "INR",
+                    name: "DEEP SHAH",
+                    description: "Google Pay Integration",
+                    order_id: data.id,
+                    handler: function (response) {
+                        console.log(":::", response);
+                        if (response.razorpay_payment_id) {
+                            // Payment was successful, redirect to the success page
+                            window.location.href = "/success";
+                        } else {
+                            // Payment was canceled or failed, redirect to the cancel page
+                            window.location.href = "/cancel";
+                        }
+                    },
+                };
+                const rzp = new Razorpay(options);
+                rzp.open();
+            });
     });
 </script>
 </html>

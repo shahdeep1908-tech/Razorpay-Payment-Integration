@@ -1,0 +1,59 @@
+{
+  'entity': 'event',
+  'account_id': 'acc_JjiMOxfI3fBopx',
+  'event': 'payment.failed',
+  'contains': [
+    'payment'
+  ],
+  'payload': {
+    'payment': {
+      'entity': {
+        'id': 'pay_MfLwkT3JTHci3H',
+        'entity': 'payment',
+        'amount': 12300,
+        'currency': 'INR',
+        'status': 'failed',
+        'order_id': 'order_MfLwLyhpzRdtRI',
+        'invoice_id': None,
+        'international': False,
+        'method': 'card',
+        'amount_refunded': 0,
+        'refund_status': None,
+        'captured': False,
+        'description': 'Google Pay Integration',
+        'card_id': 'card_MfLwkWPbgxGP4Q',
+        'card': {
+          'id': 'card_MfLwkWPbgxGP4Q',
+          'entity': 'card',
+          'name': '',
+          'last4': '1111',
+          'network': 'Visa',
+          'type': 'debit',
+          'issuer': None,
+          'international': False,
+          'emi': False,
+          'sub_type': 'consumer',
+          'token_iin': None
+        },
+        'bank': None,
+        'wallet': None,
+        'vpa': None,
+        'email': 'xxxx@gmail.com',
+        'contact': '+91xxxx01',
+        'notes': [],
+        'fee': None,
+        'tax': None,
+        'error_code': 'BAD_REQUEST_ERROR',
+        'error_description': 'Your payment has been cancelled. Try again or complete the payment later.',
+        'error_source': 'customer',
+        'error_step': 'payment_authentication',
+        'error_reason': 'payment_cancelled',
+        'acquirer_data': {
+          'auth_code': None
+        },
+        'created_at': 1695379539
+      }
+    }
+  },
+  'created_at': 1695379575
+}

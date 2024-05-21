@@ -1,6 +1,6 @@
-# Razorpay Integration with Django
+# Razorpay Integration with FastAPI
 
-This project demonstrates how to integrate Razorpay payment gateway with a Django application. It allows users to make
+This project demonstrates how to integrate Razorpay payment gateway with a FastAPI application. It allows users to make
 payments and captures payments through a webhook.
 
 ## Getting Started
@@ -18,7 +18,7 @@ Follow these steps to set up and run the project:
 
    ```shell
    git clone https://github.com/shahdeep1908-tech/Razorpay-Payment-Integration.git
-   cd razorpay-payment-integration-django
+   cd razorpay_payment_integration_fastapi
    ```
 2. Create a virtual environment (optional but recommended):
    ```shell
@@ -40,14 +40,14 @@ credentials.
 
 ## Usage
 
-1. Start the Django application:
+1. Start the FastAPI application:
    ```shell
-   python manage.py runserver
+   python main.py
    ```
 
 2. Access the payment initiation page:
 
-   Open your web browser and visit http://localhost:8000 to access the Razorpay payment page.
+   Open your web browser and visit http://localhost:8000/pay to access the Razorpay payment page.
 
 ### Webhooks
 
